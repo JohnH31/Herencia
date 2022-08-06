@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,7 +21,7 @@ public class Empleado extends Persona {
     int codigo_empleado;
     String puesto;
     
-    List<String> lis = new ArrayList<String>();
+    ArrayList<String> lis = new ArrayList<String>();
     Scanner sc = new Scanner(System.in);
     int conteo=0;
     
@@ -30,7 +31,7 @@ public class Empleado extends Persona {
 
     public void Ingresar() {
         conteo++;
-        lis.add(String.valueOf(conteo));
+        lis.add("Empleado: "+String.valueOf(conteo));
         System.out.println("Ingrese nombres: ");
         nombres = sc.next();
         lis.add(nombres);
@@ -52,11 +53,17 @@ public class Empleado extends Persona {
         System.out.println("Ingrese puesto: ");
         puesto = sc.next();
         lis.add(puesto);
-        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        try {
+DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate fechaNac = LocalDate.parse(fecha_nacimiento, fmt);
         LocalDate ahora = LocalDate.now();
         Period periodo = Period.between(fechaNac, ahora);
-        lis.add(String.valueOf(periodo.getYears()));
+        lis.add("Edad: "+String.valueOf(periodo.getYears()));
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,"Debe ingresar Fecha Valida");
+            lis.add("Para obtener edad ingrese Fecha valida dd/mm/yyyy");
+        }
+        
         System.out.println();
 
     }
@@ -64,15 +71,9 @@ public class Empleado extends Persona {
     public void Mostrar() {
         if (!lis.isEmpty()) {
             System.out.println("Datos ingresados Empleados");
-            System.out.println("Empleado: "+lis.get(0));
-            System.out.println("Nombres: "+lis.get(1));
-            System.out.println("Apellidos: "+lis.get(2));
-            System.out.println("Direccion: "+lis.get(3));
-            System.out.println("Fecha de Nacimiento: "+lis.get(4));
-            System.out.println("Telefono: "+lis.get(5));
-            System.out.println("Codigo Empleado: "+lis.get(6));
-            System.out.println("Puesto: "+lis.get(7));
-            System.out.println("Edad: "+lis.get(8));
+                        for (String x: lis) {
+                System.out.println(x);
+            }
             
         }else{
                 System.out.println("No hay valores que mostrar");
